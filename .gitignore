@@ -1,9 +1,9 @@
-.pyc
+*.pyc
 /*.txt
-.pdf
-.log
+*.pdf
+*.log
 
- .installed.cfg
+.installed.cfg
 bin
 develop-eggs
 dist
