@@ -1,4 +1,9 @@
-.installed.cfg
+.pyc
+/*.txt
+.pdf
+.log
+
+ .installed.cfg
 bin
 develop-eggs
 dist
@@ -8,6 +13,3 @@ parts
 src/*.egg-info
 lib
 lib64
-/*.txt
-.pdf
-.log
