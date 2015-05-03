@@ -23,8 +23,8 @@ class GutenbergEBook(object):
             raise
 
     def build_book(self):
-        regex_ebook1 = r'(\n\r?){7,}'
-        regex_ebook2 = r'(\n\r?){6,}'
+        regex_ebook1 = r'(\r?\n){7,}'
+        regex_ebook2 = r'(\r?\n){6,}'
 
         result = clean_list(re.split(regex_ebook1, self.gutenberg_text, flags=re.M))
         self.build_meta(result[0])
@@ -38,7 +38,7 @@ class GutenbergEBook(object):
         pass
 
     def build_sections(self):
-        regex = r'(\n\r?){5,}'
+        regex = r'(\r?\n){5,}'
         result = clean_list(re.split(regex, self.ebook, flags=re.M))
         for text in result:
             title = text.split('\n')[0]
