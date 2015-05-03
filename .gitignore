@@ -2,8 +2,12 @@
 /*.txt
 *.pdf
 *.log
+*.tex
 
+/.idea
+.dstore
 .installed.cfg
+
 bin
 develop-eggs
 dist
