@@ -1,8 +1,10 @@
 *.pyc
-/*.txt
 *.pdf
 *.log
 *.tex
+*.aux
+*.toc
+/*.txt
 
 .idea/
 .dstore
