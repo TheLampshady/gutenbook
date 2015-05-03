@@ -5,7 +5,7 @@ from util import clean_list
 from models import Tex
 from models import Chapter
 from models import Contents
-
+import codecs
 
 class GutenbergEBook(object):
     def __init__(self, book_id, directory='books/'):
@@ -16,7 +16,7 @@ class GutenbergEBook(object):
 
         file_name = '%spg%s.txt' % (directory, book_id)
         try:
-            gutenberg_file = open(file_name, 'r')
+            gutenberg_file = codecs.open(file_name, 'r', "utf-8")
             self.gutenberg_text = gutenberg_file.read()
         except IOError:
             logging.exception("File Error: Cannot open '%s'" % file_name)

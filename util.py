@@ -1,4 +1,6 @@
 import re
+import sys
+import codecs
 from tex import latex2pdf
 
 
@@ -17,15 +19,19 @@ def preview(content):
 def build_pdf(tex_file, output_file):
     if not output_file:
         output_file = 'ebook.pdf'
-
-    outfile = open(output_file, 'w')
-    pdf = latex2pdf(tex_file)
-    outfile.write(pdf)
-    outfile.close()
-
+		
+	if sys.platform != 'win32':
+		outfile = codecs.open(output_file, 'w', 'utf-8')
+		pdf = latex2pdf(tex_file)
+		outfile.write(pdf)
+		outfile.close()
+	else:
+		build_tex(tex_file)
+		from subprocess import check_output
+		check_output("pdflatex %s" % tex_file, shell=True)
 
 def build_tex(tex_file, output_file='ebook.tex'):
 
-    outfile = open(output_file, 'w')
+    outfile = codecs.open(output_file, 'w', 'utf-8')
     outfile.write(tex_file)
     outfile.close()
