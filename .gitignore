@@ -4,7 +4,7 @@
 *.log
 *.tex
 
-*.idea
+.idea/
 .dstore
 .installed.cfg
 
