@@ -18,16 +18,24 @@ def build_pdf(tex_content, output_file):
     logging.info("PDF Conversion: Outputting to '%s'." % pdf_file)
     build_tex(tex_content, tex_file)
 
+    '''
     if sys.platform != 'win32':
         outfile = codecs.open(pdf_file, 'w', 'utf-8')
         pdf = latex2pdf(tex_content)
         outfile.write(pdf)
         outfile.close()
     else:
-        logging.info("Windows Mode: Running 'pdflatex %s'." % tex_file)
-        from subprocess import check_output
-
+    '''
+    logging.info("Windows Mode: Running 'pdflatex %s'." % tex_file)
+    from subprocess import check_output
+    try:
         check_output("pdflatex %s" % tex_file, shell=True)
+    except:
+        pass
+    try:
+        check_output("pdflatex %s" % tex_file, shell=True)
+    except:
+        pass
 
 
 def build_tex(tex_file, output_file):

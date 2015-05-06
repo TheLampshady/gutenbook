@@ -12,6 +12,7 @@ class GutenbergEBook(object):
         self.ebook = None
         self.gutenberg_text = None
         self.contents = None
+        self.title = ''
         self.chapters = []
         self.author_list = []
 
@@ -36,10 +37,18 @@ class GutenbergEBook(object):
         self.build_sections()
 
     def build_meta(self, content):
-        author_regex = 'Author:\s((.*)(?!\n\r?\n\r?)'
+        author_regex = 'Author:\s(?:(?!\n\r?\n\r?).)*'
+        title_regex = 'Title:\s(?:(?!\n\r?\n\r?).)*'
+        split_regex = r'(\r?\n)'
 
+        result = clean_list(re.findall(author_regex, content, flags=re.M|re.S))
+        self.author_list = clean_list(re.split(split_regex, result[0], flags=re.M))
 
-        #self.author_list = clean_list(re.findall(author_regex, content, flags=re.M|re.S))
+        result = clean_list(re.findall(author_regex, content, flags=re.M|re.S))
+        self.author_list = clean_list(re.split(split_regex, result[0], flags=re.M))
+
+        result = clean_list(re.findall(title_regex, content, flags=re.M|re.S))
+        self.title = clean_list(re.split(split_regex, result[0], flags=re.M))[0]
 
     def build_sections(self):
         regex = r'(\r?\n){5,}'
@@ -51,18 +60,34 @@ class GutenbergEBook(object):
             elif 'CONTENTS' in title:
                 self.contents = Contents(text)
 
+    def texify_author(self):
+        result = ''
+        if not self.author_list:
+            return "None"
+
+        auth = list(self.author_list)
+        result += '\n'
+        result += auth.pop(0)
+        for a in auth:
+            result += '\\\n\\and\n'
+            result += a
+        return result
+
     def texify(self):
         tex_content = u''
         tex_content += Tex.doc
-        tex_content += '\\usepackage[T1]{fontenc}\n'
-        tex_content += '\\usepackage{textcomp}\n'
-        tex_content += '\\usepackage{lmodern}\n'
         tex_content += Tex.indent
         tex_content += Tex.right
-        tex_content += Tex.title % 'i'
-        tex_content += Tex.author % 'i'
+        tex_content += Tex.import_title
+
+        tex_content += Tex.title % self.title
+        tex_content += Tex.author % self.texify_author()
         tex_content += Tex.date % 'i'
+
+
         tex_content += Tex.begin
+        tex_content += Tex.make_title
+
         tex_content += Tex.table
         for chapter in self.chapters:
             tex_content += chapter.texify()
