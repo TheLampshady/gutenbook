@@ -7,7 +7,7 @@
 /*.txt
 
 .idea/
-.dstore
+.DS_Store
 .installed.cfg
 
 bin

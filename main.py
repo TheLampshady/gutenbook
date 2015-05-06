@@ -32,6 +32,4 @@ if __name__ == "__main__":
     gutenbook.build_book()
 
     tex_file = gutenbook.texify()
-    build_pdf(tex_file, args.output)
-
-    build_tex(tex_file)
+    build_pdf(tex_file, args.book_id)

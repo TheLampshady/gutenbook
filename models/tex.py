@@ -15,14 +15,14 @@ class Tex(object):
     table = u'\\tableofcontents\n'
     chapter = u'\\chapter{%s}\n'
     part = u'\\part{%s}\n'
-    
+
     @classmethod
     def tex_it(cls, text):
-        char_set = ['&','%','$','#','_','{','}','~','^','\\\\']
+        char_set = ['\\', '&', '%', '$', '#', '_', '{', '}', '~', '^']
         result = text
 
         for c in char_set:
-            result = result.replace(c, "\\"+c)
-			
+            result = result.replace(c, "\\" + c)
+
         return result
 

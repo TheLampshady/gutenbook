@@ -13,6 +13,7 @@ class GutenbergEBook(object):
         self.gutenberg_text = None
         self.contents = None
         self.chapters = []
+        self.author_list = []
 
         file_name = '%spg%s.txt' % (directory, book_id)
         try:
@@ -35,7 +36,10 @@ class GutenbergEBook(object):
         self.build_sections()
 
     def build_meta(self, content):
-        pass
+        author_regex = 'Author:\s((.*)(?!\n\r?\n\r?)'
+
+
+        #self.author_list = clean_list(re.findall(author_regex, content, flags=re.M|re.S))
 
     def build_sections(self):
         regex = r'(\r?\n){5,}'
@@ -50,6 +54,9 @@ class GutenbergEBook(object):
     def texify(self):
         tex_content = u''
         tex_content += Tex.doc
+        tex_content += '\\usepackage[T1]{fontenc}\n'
+        tex_content += '\\usepackage{textcomp}\n'
+        tex_content += '\\usepackage{lmodern}\n'
         tex_content += Tex.indent
         tex_content += Tex.right
         tex_content += Tex.title % 'i'
