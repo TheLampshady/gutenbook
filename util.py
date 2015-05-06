@@ -11,6 +11,8 @@ def clean_list(split_list):
 
 
 def build_pdf(tex_content, output_file):
+    cmd = 'pdflatex %s'
+    mac = '/usr/texbin/pdflatex %s'
     id = str(output_file)
     pdf_file = 'output/'+ id + '.pdf'
     tex_file = 'output/'+ id + '.tex'
@@ -18,6 +20,8 @@ def build_pdf(tex_content, output_file):
     logging.info("PDF Conversion: Outputting to '%s'." % pdf_file)
     build_tex(tex_content, tex_file)
 
+    if sys.platform != 'win32':
+        cmd = mac
     '''
     if sys.platform != 'win32':
         outfile = codecs.open(pdf_file, 'w', 'utf-8')
@@ -29,11 +33,11 @@ def build_pdf(tex_content, output_file):
     logging.info("Windows Mode: Running 'pdflatex %s'." % tex_file)
     from subprocess import check_output
     try:
-        check_output("pdflatex %s" % tex_file, shell=True)
+        check_output(cmd % tex_file, shell=True)
     except:
         pass
     try:
-        check_output("pdflatex %s" % tex_file, shell=True)
+        check_output(cmd % tex_file, shell=True)
     except:
         pass
 

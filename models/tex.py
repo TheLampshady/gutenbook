@@ -3,10 +3,10 @@ import unicodedata
 
 
 class Tex(object):
-    doc = u'\\documentclass[11pt]{book}\n'
+    doc = u'\\documentclass[11pt,oneside]{book}\n'
     indent = u'\\parindent0pt  \parskip10pt\n'
     right = u'\\raggedright\n'
-    import_title = u'\\usepackage{titling}'
+    import_title = u'\\usepackage{titling}\n'
 
     title = u'\\title{%s}\n'
     author = u'\\author{%s}\n'
@@ -15,7 +15,7 @@ class Tex(object):
     begin = u'\\begin{document}\n'
     end = u'\\end{document}\n'
 
-    make_title = u'\\maketitle'
+    make_title = u'\\maketitle\n'
 
     table = u'\\tableofcontents\n'
     chapter = u'\\chapter{%s}\n'

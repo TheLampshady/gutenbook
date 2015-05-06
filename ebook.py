@@ -12,9 +12,12 @@ class GutenbergEBook(object):
         self.ebook = None
         self.gutenberg_text = None
         self.contents = None
+
         self.title = ''
-        self.chapters = []
+        self.date = ''
         self.author_list = []
+
+        self.chapters = []
 
         file_name = '%spg%s.txt' % (directory, book_id)
         try:
@@ -39,16 +42,18 @@ class GutenbergEBook(object):
     def build_meta(self, content):
         author_regex = 'Author:\s(?:(?!\n\r?\n\r?).)*'
         title_regex = 'Title:\s(?:(?!\n\r?\n\r?).)*'
+        date_regex = 'Release\sDate:\s(?:(?!\n\r?\n\r?).)*'
         split_regex = r'(\r?\n)'
-
-        result = clean_list(re.findall(author_regex, content, flags=re.M|re.S))
-        self.author_list = clean_list(re.split(split_regex, result[0], flags=re.M))
+        split2_regex = r'(\s\[)'
 
         result = clean_list(re.findall(author_regex, content, flags=re.M|re.S))
         self.author_list = clean_list(re.split(split_regex, result[0], flags=re.M))
 
         result = clean_list(re.findall(title_regex, content, flags=re.M|re.S))
         self.title = clean_list(re.split(split_regex, result[0], flags=re.M))[0]
+
+        result = clean_list(re.findall(date_regex, content, flags=re.M|re.S))
+        self.date = clean_list(re.split(split2_regex, result[0], flags=re.M))[0]
 
     def build_sections(self):
         regex = r'(\r?\n){5,}'
@@ -82,7 +87,7 @@ class GutenbergEBook(object):
 
         tex_content += Tex.title % self.title
         tex_content += Tex.author % self.texify_author()
-        tex_content += Tex.date % 'i'
+        tex_content += Tex.date % self.date
 
 
         tex_content += Tex.begin
