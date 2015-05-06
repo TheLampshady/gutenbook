@@ -1,9 +1,15 @@
 *.pyc
-/*.txt
 *.pdf
 *.log
+*.tex
+*.aux
+*.toc
+/*.txt
 
+.idea/
+.dstore
 .installed.cfg
+
 bin
 develop-eggs
 dist

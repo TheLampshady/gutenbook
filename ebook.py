@@ -5,7 +5,7 @@ from util import clean_list
 from models import Tex
 from models import Chapter
 from models import Contents
-
+import codecs
 
 class GutenbergEBook(object):
     def __init__(self, book_id, directory='books/'):
@@ -16,15 +16,15 @@ class GutenbergEBook(object):
 
         file_name = '%spg%s.txt' % (directory, book_id)
         try:
-            gutenberg_file = open(file_name, 'r')
+            gutenberg_file = codecs.open(file_name, 'r', "utf-8")
             self.gutenberg_text = gutenberg_file.read()
         except IOError:
             logging.exception("File Error: Cannot open '%s'" % file_name)
             raise
 
     def build_book(self):
-        regex_ebook1 = r'(\n\r?){7,}'
-        regex_ebook2 = r'(\n\r?){6,}'
+        regex_ebook1 = r'(\r?\n){7,}'
+        regex_ebook2 = r'(\r?\n){6,}'
 
         result = clean_list(re.split(regex_ebook1, self.gutenberg_text, flags=re.M))
         self.build_meta(result[0])
@@ -38,7 +38,7 @@ class GutenbergEBook(object):
         pass
 
     def build_sections(self):
-        regex = r'(\n\r?){5,}'
+        regex = r'(\r?\n){5,}'
         result = clean_list(re.split(regex, self.ebook, flags=re.M))
         for text in result:
             title = text.split('\n')[0]
