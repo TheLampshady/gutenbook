@@ -14,7 +14,7 @@ Python Requirements:
 pip install tex roman
 
 Run Program
-main.py -b 3772
+main.py -b 20848
 
 Resources:
 http://www.rpi.edu/dept/arc/training/latex/
